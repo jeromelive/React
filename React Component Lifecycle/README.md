@@ -347,18 +347,30 @@ export default Test;
 
 __父组件必须在子组件 mounted 完才能完成 mounted 操作__
 
-> 当点击是否显示复选框`隐藏`组件时打印如下：
+> 点击是否显示复选框`隐藏`组件时打印如下：
 
 ![alt](./images/20180129101923.png)
 
-> 当点击是否显示复选框`显示`组件时打印如下：
+> 点击是否显示复选框`显示`组件时打印如下：
 
 ![alt](./images/20180129102230.png)
 
 __子组件重新 mount__
 
-> 当点击是否可用复选框时打印如下：
+> 点击是否可用复选框时打印如下：
 
 ![alt](./images/20180129095503.png)
 
 __父组件改变 state 值，理应运行 shouldComponentUpdate、componentWillUpdate、componentDidUpdate生命周期函数，但子组件不会再次 mount 而是直接 Update，即运行与父组件相同生命周期函数外还会运行  componentWillReceiveProps__
+
+
+# update周期函数的参数
+
+```
+void componentWillReceiveProps(object nextProps)
+boolean shouldComponentUpdate(object nextProps, object nextState)
+void componentWillUpdate(object nextProps, object nextState)
+void componentDidUpdate(object prevProps, object prevState)
+```
+
+参数说明请自行脑补
