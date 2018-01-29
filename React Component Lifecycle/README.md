@@ -219,7 +219,7 @@ class ScoreBoard extends React.Component {
 ```
 
 
-# 实践
+## 5 实践
 
 ```
 import React, {Component} from 'react';
@@ -364,7 +364,7 @@ __子组件重新 mount__
 __父组件改变 state 值，理应运行 shouldComponentUpdate、componentWillUpdate、componentDidUpdate生命周期函数，但子组件不会再次 mount 而是直接 Update，即运行与父组件相同生命周期函数外还会运行  componentWillReceiveProps__
 
 
-# update周期函数的参数
+## 6 update周期函数的参数
 
 ```
 void componentWillReceiveProps(object nextProps)
