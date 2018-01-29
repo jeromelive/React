@@ -217,3 +217,148 @@ class ScoreBoard extends React.Component {
   }
 }
 ```
+
+
+# 实践
+
+```
+import React, {Component} from 'react';
+
+class Button extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillMount() {
+    console.log('child-componentWillMount');
+  }
+
+  componentDidMount() {
+    console.log('child-componentDidMount');
+  }
+
+  componentWillReceiveProps() {
+    console.log('child-componentWillReceiveProps');
+  }
+
+  shouldComponentUpdate() {
+    console.log('child-shouldComponentUpdate');
+    return true;
+  }
+
+  componentWillUpdate() {
+    console.log('child-componentWillUpdate');
+  }
+
+  componentDidUpdate() {
+    console.log('child-componentDidUpdate');
+  }
+
+  componentWillUnmount() {
+    console.log('child-componentWillUnmount');
+  }
+
+  render() {
+    return(
+      <div>
+        <button disabled={this.props.dis}>Button</button>
+      </div>
+    )
+  }
+}
+
+class Test extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dis: true,
+      isShow: true
+    }
+  }
+
+  componentWillMount() {
+    console.log('parent-componentWillMount');
+  }
+
+  componentDidMount() {
+    console.log('parent-componentDidMount');
+  }
+
+  componentWillReceiveProps() {
+    console.log('parent-componentWillReceiveProps');
+  }
+
+  shouldComponentUpdate() {
+    console.log('parent-shouldComponentUpdate');
+    return true;
+  }
+
+  componentWillUpdate() {
+    console.log('parent-componentWillUpdate');
+  }
+
+  componentDidUpdate() {
+    console.log('parent-componentDidUpdate');
+  }
+
+  componentWillUnmount() {
+    console.log('parent-componentWillUnmount');
+  }
+  
+  handleDisChange(e) {
+    this.setState((pre) => ({
+      dis: !pre.dis
+    }))
+  }
+  
+  handleShowChange() {
+    this.setState((pre) => ({
+      isShow: !pre.isShow
+    }))
+  }
+
+  render() {
+    return(
+      <div>
+        <div>
+          <label htmlFor="isShow">是否显示</label>
+          <input id="isShow" type="checkbox" checked={this.state.isShow} onChange={this.handleShowChange.bind(this)} />
+        </div>
+        <div>
+          <label htmlFor="dis">是否不可用</label>
+          <input id="dis" type="checkbox" checked={this.state.dis} onChange={this.handleDisChange.bind(this)} />
+        </div>
+        {
+          this.state.isShow && <Button dis={this.state.dis} />
+        }
+      </div>
+    )
+  }
+}
+
+export default Test;
+```
+
+![alt](./images/20180129094800.png)
+
+>页面初始化是打印如下：  
+
+![alt](./images/20180129094952.png)
+
+__父组件必须在子组件 mounted 完才能完成 mounted 操作__
+
+> 当点击是否显示复选框`隐藏`组件时打印如下：
+
+![alt](./images/20180129101923.png)
+
+> 当点击是否显示复选框`显示`组件时打印如下：
+
+![alt](./images/20180129102230.png)
+
+__子组件重新 mount__
+
+> 当点击是否可用复选框时打印如下：
+
+![alt](./images/20180129095503.png)
+
+__父组件改变 state 值，理应运行 shouldComponentUpdate、componentWillUpdate、componentDidUpdate生命周期函数，但子组件不会再次 mount 而是直接 Update，即运行与父组件相同生命周期函数外还会运行  componentWillReceiveProps__
